@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ffe4ec">
+<title>Một câu hỏi dành cho bạn 💗</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#fff8fb,#ffe4ec);
+    color: #663344; display: flex; align-items: center; justify-content: center;
+    overflow: hidden; padding: 18px;
+  }
+  .card {
+    width: min(100%, 520px); background: rgba(255,255,255,.88);
+    border: 1px solid #ffd1df; border-radius: 26px; padding: 26px 20px;
+    text-align: center; box-shadow: 0 14px 40px rgba(220,100,140,.16);
+  }
+  h1 { color: #e75480; font-size: clamp(23px,6vw,30px); margin: 5px 0 14px; }
+  .subtitle { color: #9b687a; margin-bottom: 22px; line-height: 1.5; }
+  .question {
+    font-size: clamp(18px,4.8vw,22px); font-weight: 700; line-height: 1.5;
+    margin: 20px 0;
+  }
+  .answers { display: grid; gap: 12px; }
+  button {
+    border: 0; border-radius: 15px; padding: 15px 14px; font-size: 17px;
+    font-weight: 700; cursor: pointer; touch-action: manipulation;
+    transition: transform .15s, background .15s;
+  }
+  button:active { transform: scale(.97); }
+  .answer { background: #ffe4ec; color: #98445f; border: 1px solid #ffc5d7; }
+  .answer:hover { background: #ffd3e1; }
+  #feedback { min-height: 54px; margin-top: 18px; font-weight: 800; color: #df4775; line-height: 1.5; }
+  .hidden { display: none !important; }
+  body.love { background: #ffe4ec; }
+  .love-card { width: min(100%, 600px); text-align: center; }
+  .ticker {
+    overflow: hidden; white-space: nowrap; width: 100%; color: #df4775;
+    font-size: clamp(20px,5vw,28px); font-weight: 800; padding: 18px 0;
+  }
+  .ticker span { display: inline-block; padding-left: 100%; animation: scroll 11s linear infinite; }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+  .question-love { font-size: clamp(23px,6vw,31px); color: #d94373; font-weight: 800; margin: 28px 0; }
+  .button-area { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; position: relative; min-height: 65px; }
+  .yes { background: #f56f9a; color: white; min-width: 130px; }
+  .no { background: #c9c9c9; color: white; min-width: 130px; }
+  .result-heart { font-size: clamp(100px,30vw,170px); animation: beat .85s infinite alternate; margin: 10px 0; }
+  @keyframes beat { to { transform: scale(1.13); } }
+  .result-title { color: #df4775; font-size: clamp(25px,7vw,34px); font-weight: 900; }
+  .result-text { color: #a64d6a; font-size: 18px; line-height: 1.6; }
+  .small { font-size: 13px; color: #b07b8d; margin-top: 20px; }
+</style>
+</head>
+<body>
+  <main class="card" id="quiz">
+    <h1>💗 MỘT CÂU HỎI DÀNH CHO BẠN 💗</h1>
+    <div class="subtitle">Trả lời đúng câu hỏi này, mình có một điều muốn nói với bạn...</div>
+    <div class="question">Phương trình x² − 5x + 6 = 0 có hai nghiệm là:</div>
+    <div class="answers">
+      <button class="answer" data-correct="false">A. x = 1 và x = 6</button>
+      <button class="answer" data-correct="true">B. x = 2 và x = 3</button>
+      <button class="answer" data-correct="false">C. x = −2 và x = −3</button>
+      <button class="answer" data-correct="false">D. x = 3 và x = 5</button>
+    </div>
+    <div id="feedback" aria-live="polite"></div>
+    <div class="small">Chọn đáp án mà bạn nghĩ là đúng nha 🌷</div>
+  </main>
+
+  <main class="love-card hidden" id="confession">
+    <div class="ticker"><span>Giỏiii quáa 💗 Mai đi ăn mì cay với tui nhaaa! 💗</span></div>
+    <div class="question-love">💌 ĐỒNG Ý ĐI MÀ 💌</div>
+    <div class="button-area" id="buttonArea">
+      <button class="yes" id="yesBtn">CÓ ❤️</button>
+      <button class="no" id="noBtn">KHÔNG 💔</button>
+    </div>
+    <div class="small">Một câu trả lời thôi cũng làm mình vui rồi 🥺</div>
+  </main>
+
+  <main class="love-card hidden" id="success">
+    <div class="result-heart">❤️</div>
+    <div class="result-title">YÊU BẠN NHIỀU LẮM!!!</div>
+    <p class="result-text">Mai nhớ đi ăn mì cay với tui nhaaa 🥰🌶️</p>
+    <div class="small">Hẹn gặp bạn ngày mai 💗</div>
+  </main>
+
+<script>
+  const quiz = document.getElementById('quiz');
+  const confession = document.getElementById('confession');
+  const success = document.getElementById('success');
+  const feedback = document.getElementById('feedback');
+
+  document.querySelectorAll('.answer').forEach(button => {
+    button.addEventListener('click', () => {
+      if (button.dataset.correct === 'true') {
+        document.body.classList.add('love');
+        quiz.classList.add('hidden');
+        confession.classList.remove('hidden');
+      } else {
+        feedback.textContent = '😂 LỚP 12 RỒI CÒN TÍNH SAI! Thử lại đi nha!';
+        if (navigator.vibrate) navigator.vibrate(100);
+      }
+    });
+  });
+
+  document.getElementById('yesBtn').addEventListener('click', () => {
+    confession.classList.add('hidden');
+    success.classList.remove('hidden');
+  });
+
+  const noBtn = document.getElementById('noBtn');
+  const buttonArea = document.getElementById('buttonArea');
+  function runAway() {
+    const area = buttonArea.getBoundingClientRect();
+    const btn = noBtn.getBoundingClientRect();
+    const maxX = Math.max(0, area.width - btn.width);
+    const maxY = 65;
+    noBtn.style.position = 'absolute';
+    noBtn.style.left = Math.random() * maxX + 'px';
+    noBtn.style.top = (Math.random() * maxY) + 'px';
+  }
+  noBtn.addEventListener('pointerdown', runAway);
+  noBtn.addEventListener('mouseenter', runAway);
+</script>
+</body>
+</html>
